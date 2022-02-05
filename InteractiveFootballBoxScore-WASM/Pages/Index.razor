@@ -1,9 +1,40 @@
 ﻿@page "/"
+@inject HttpClient Http
 
 <PageTitle>Index</PageTitle>
 
 <h1>Hello, world!</h1>
 
+@csvPbpData
+
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+@code {
+    private string csvPbpData;
+
+    protected override async Task OnInitializedAsync()
+    {
+        string sampleDataURI = "sample-data/GameDataFBRef.csv";
+        var response = await Http.GetAsync(sampleDataURI);
+
+        if (response.IsSuccessStatusCode)
+        {
+            Stream responseStream = await response.Content.ReadAsStreamAsync();
+            using (var reader = new StreamReader(responseStream))
+            {
+                while (reader.EndOfStream == false)
+                {
+                    string data = reader.ReadLine();
+                    csvPbpData += data;
+                }
+            }
+        }
+        else
+        {
+            csvPbpData = "error";
+        }
+
+    }
+}
