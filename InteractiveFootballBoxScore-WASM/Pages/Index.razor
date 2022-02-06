@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using InteractiveFootballBoxScore_WASM.Components
 @using PlayByPlayParser
 @using PlayByPlayParser.Models
 @inject HttpClient Http
@@ -6,33 +7,7 @@
 <PageTitle>Index</PageTitle>
 
 <h1>Play-by-Play</h1>
-<table class="table">
-    <thead>
-        <tr>
-        @foreach(string header in headers)
-        {
-            <th>@header</th>
-        }
-        </tr>
-    </thead>
-    
-    <tbody>
-    @foreach(Play play in playList)
-    {
-        <tr>
-            <td>@play.PlayIndex</td>
-            <td>@play.Quarter</td>
-            <td>@play.Time</td>
-            <td>@play.Down</td>
-            <td>@play.ToGo</td>
-            <td>@play.Location</td>
-            <td>@play.Summary</td>
-        </tr>
-    }
-    </tbody>
-</table>
-
-<SurveyPrompt Title="How is Blazor working for you?" />
+<PlayTable PlayList="playList"/>
 
 @code {
     private string[] headers = { "Play", "Quarter", "Time", "Down", "To Go", "Location", "Summary" };

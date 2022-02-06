@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PlayByPlayParser.Models
 {
-    internal class Play
+    public class Play
     {
         public int PlayIndex { get; set; }
         public string? Quarter { get; set; }
