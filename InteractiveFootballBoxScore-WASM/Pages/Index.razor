@@ -1,18 +1,37 @@
 ﻿@page "/"
+@using PlayByPlayParser
+@using PlayByPlayParser.Models
 @inject HttpClient Http
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
-
-@csvPbpData
-
-Welcome to your new app.
+<h1>Play-by-Play</h1>
+<table>
+    <tr>
+        @foreach(string header in headers)
+        {
+            <th>@header</th>
+        }
+    </tr>
+    @foreach(Play play in playList)
+    {
+        <tr>
+            <td>@play.PlayIndex</td>
+            <td>@play.Quarter</td>
+            <td>@play.Time</td>
+            <td>@play.Down</td>
+            <td>@play.ToGo</td>
+            <td>@play.Location</td>
+            <td>@play.Summary</td>
+        </tr>
+    }
+</table>
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
 @code {
-    private string csvPbpData;
+    private string[] headers = { "Play", "Quarter", "Time", "Down", "To Go", "Location", "Summary" };
+    private List<Play> playList = new List<Play>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -24,16 +43,28 @@ Welcome to your new app.
             Stream responseStream = await response.Content.ReadAsStreamAsync();
             using (var reader = new StreamReader(responseStream))
             {
+                //skip header line
+                reader.ReadLine();
+
+                int index = 0;
                 while (reader.EndOfStream == false)
                 {
-                    string data = reader.ReadLine();
-                    csvPbpData += data;
+                    index++;
+                    string[] data = reader.ReadLine().Split(",");
+                    Play currentPlay = new Play
+                    {
+                        PlayIndex = index,
+                        Quarter = data[0],
+                        Time = data[1],
+                        Down = data[2],
+                        ToGo = data[3],
+                        Location = data[4],
+                        Summary = data[5],
+                        PlayEvent = PlayEventFactory.ExtractPlayEvent(data[5])
+                    };
+                    playList.Add(currentPlay);
                 }
             }
-        }
-        else
-        {
-            csvPbpData = "error";
         }
 
     }
