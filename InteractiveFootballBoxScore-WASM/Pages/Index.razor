@@ -7,11 +7,12 @@
 <PageTitle>Index</PageTitle>
 
 <h1>Play-by-Play</h1>
+<PlayView CurrentPlay="currentPlay"/>
 <PlayTable PlayList="playList"/>
 
 @code {
-    private string[] headers = { "Play", "Quarter", "Time", "Down", "To Go", "Location", "Summary" };
     private List<Play> playList = new List<Play>();
+    private Play currentPlay;
 
     protected override async Task OnInitializedAsync()
     {
@@ -27,29 +28,30 @@
     private async Task processData(HttpResponseMessage response)
     {
         Stream responseStream = await response.Content.ReadAsStreamAsync();
-            using (var reader = new StreamReader(responseStream))
-            {
-                //skip header line
-                reader.ReadLine();
+        using (var reader = new StreamReader(responseStream))
+        {
+            //skip header line
+            reader.ReadLine();
 
-                int index = 0;
-                while (reader.EndOfStream == false)
+            int index = 0;
+            while (reader.EndOfStream == false)
+            {
+                index++;
+                string[] data = reader.ReadLine().Split(",");
+                Play currentPlay = new Play
                 {
-                    index++;
-                    string[] data = reader.ReadLine().Split(",");
-                    Play currentPlay = new Play
-                    {
-                        PlayIndex = index,
-                        Quarter = data[0],
-                        Time = data[1],
-                        Down = data[2],
-                        ToGo = data[3],
-                        Location = data[4],
-                        Summary = data[5],
-                        PlayEvent = PlayEventFactory.ExtractPlayEvent(data[5])
-                    };
-                    playList.Add(currentPlay);
-                }
+                    PlayIndex = index,
+                    Quarter = data[0],
+                    Time = data[1],
+                    Down = data[2],
+                    ToGo = data[3],
+                    Location = data[4],
+                    Summary = data[5],
+                    PlayEvent = PlayEventFactory.ExtractPlayEvent(data[5])
+                };
+                playList.Add(currentPlay);
             }
+        }
+        currentPlay = playList[0];
     }
 }

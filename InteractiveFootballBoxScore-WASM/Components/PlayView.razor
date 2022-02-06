@@ -1,0 +1,9 @@
+﻿@using PlayByPlayParser.Models
+<div>
+    @CurrentPlay.PlayEvent.ToString()
+</div>
+
+@code {
+    [Parameter]
+    public Play CurrentPlay { get; set; }
+}
