@@ -20,7 +20,13 @@
 
         if (response.IsSuccessStatusCode)
         {
-            Stream responseStream = await response.Content.ReadAsStreamAsync();
+            await processData(response);
+        }
+    }
+
+    private async Task processData(HttpResponseMessage response)
+    {
+        Stream responseStream = await response.Content.ReadAsStreamAsync();
             using (var reader = new StreamReader(responseStream))
             {
                 //skip header line
@@ -45,7 +51,5 @@
                     playList.Add(currentPlay);
                 }
             }
-        }
-
     }
 }
