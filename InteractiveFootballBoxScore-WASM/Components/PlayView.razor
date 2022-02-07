@@ -1,9 +1,22 @@
 ﻿@using PlayByPlayParser.Models
+@inject State.PlayState PlayState
 <div>
-    @CurrentPlay.PlayEvent.ToString()
+    @if (PlayState.CurrentPlay != null) { 
+        @computedPlayString()
+    }
 </div>
 
 @code {
-    [Parameter]
-    public Play CurrentPlay { get; set; }
+    protected override void OnInitialized()
+    {
+        PlayState.OnChange += StateHasChanged;
+    }
+    public void Dispose()
+    {
+        PlayState.OnChange -= StateHasChanged;
+    }
+    public string computedPlayString()
+    {
+        return PlayState.CurrentPlay.PlayEvent.ToString();
+    }
 }

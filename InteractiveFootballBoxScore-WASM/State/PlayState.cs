@@ -1,6 +1,6 @@
 ﻿using PlayByPlayParser.Models;
 
-namespace InteractiveFootballBoxScore_WASM.Services
+namespace InteractiveFootballBoxScore_WASM.State
 {
     public class PlayState
     {

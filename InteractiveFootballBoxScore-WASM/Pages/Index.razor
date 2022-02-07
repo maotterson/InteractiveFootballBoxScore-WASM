@@ -3,16 +3,16 @@
 @using PlayByPlayParser
 @using PlayByPlayParser.Models
 @inject HttpClient Http
+@inject State.PlayState PlayState
 
 <PageTitle>Index</PageTitle>
 
 <h1>Play-by-Play</h1>
-<PlayView @bind-CurrentPlay="currentPlay"/>
-<PlayTable @bind-PlayList="playList"/>
+<PlayView/>
+<PlayTable PlayList="playList"/>
 
 @code {
     private List<Play> playList = new List<Play>();
-    private Play currentPlay;
 
     protected override async Task OnInitializedAsync()
     {
@@ -23,6 +23,8 @@
         {
             await processData(response);
         }
+
+        PlayState.SetCurrentPlay(playList[0]);
     }
 
     private async Task processData(HttpResponseMessage response)
@@ -52,6 +54,5 @@
                 playList.Add(currentPlay);
             }
         }
-        currentPlay = playList[0];
     }
 }
