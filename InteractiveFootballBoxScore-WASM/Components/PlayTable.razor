@@ -13,7 +13,8 @@
     <tbody>
     @foreach(Play play in PlayList)
     {
-        <tr>
+        <tr
+            @onmouseover="OnPlaySelected">
             <td>@play.PlayIndex</td>
             <td>@play.Quarter</td>
             <td>@play.Time</td>
@@ -31,4 +32,12 @@
 
     [Parameter]
     public List<Play>? PlayList { get; set; }
+
+    [Parameter]
+
+
+    public Task OnPlaySelected(ChangeEventArgs e)
+    {
+        
+    }
 }

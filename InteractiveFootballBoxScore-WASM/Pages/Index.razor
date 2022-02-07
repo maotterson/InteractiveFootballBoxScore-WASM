@@ -7,8 +7,8 @@
 <PageTitle>Index</PageTitle>
 
 <h1>Play-by-Play</h1>
-<PlayView CurrentPlay="currentPlay"/>
-<PlayTable PlayList="playList"/>
+<PlayView @bind-CurrentPlay="currentPlay"/>
+<PlayTable @bind-PlayList="playList"/>
 
 @code {
     private List<Play> playList = new List<Play>();
