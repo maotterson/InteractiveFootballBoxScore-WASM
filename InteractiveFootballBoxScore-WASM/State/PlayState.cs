@@ -14,6 +14,11 @@ namespace InteractiveFootballBoxScore_WASM.State
             NotifyStateChanged();
         }
 
+        public string GetStartingBallSpot()
+        {
+            return CurrentPlay.Location;
+        }
+
         private void NotifyStateChanged() => OnChange?.Invoke();
     }
 }
