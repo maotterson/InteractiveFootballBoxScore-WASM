@@ -1,4 +1,6 @@
-﻿namespace InteractiveFootballBoxScore_WASM.PbpParser.Models
+﻿using PlayByPlayParser.Models;
+
+namespace InteractiveFootballBoxScore_WASM.PbpParser.Models
 {
     /// <summary>
     /// Game Data
@@ -9,6 +11,7 @@
     {
         public Team? Home { get; set; }
         public Team? Away { get; set; }
+        public List<Play>? PlayList { get; set; }
 
     }
 }
