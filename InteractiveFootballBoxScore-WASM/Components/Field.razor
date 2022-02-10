@@ -1,28 +1,43 @@
 ﻿<div class="flex flex-row">
     <!-- endzone 1 -->
-    <svg class="mx-0" style="width:10%;height:100%;">
-        <rect width="100%" height="100%" fill="red" stroke="black" />
+    <svg class="mx-0" style="width:8%;height:100%;">
+        <rect width="100%" height="100%" fill="blue" stroke="black" />
     </svg>
 
     <!-- play area -->
-    <svg class="mx-0 " style="width:80%;height:100%;">
+    <svg class="mx-0 " style="width:84%;height:100%;">
       <g>
         <rect width="100%" height="100%" fill="green" stroke="black" />
     
         <!-- yardlines -->
         @for(int i=5; i<=95; i+=5)
         {
-            <line x1="@i%" y1="0%" x2="@i%" y2="100%" stroke="white"/>
+            if(i==50)
+            {
+                <line x1="@i%" y1="0%" x2="@i%" y2="100%" stroke="white" stroke-width="2"/>
+            }
+            else
+            {
+                <line x1="@i%" y1="0%" x2="@i%" y2="100%" stroke="white"/>    
+            }
         }
+
+        <ellipse cx="@ballSpot()%" cy="50%" rx="@ballWidth%" ry="@ballHeight%" stroke="brown" fill="brown" stroke-width="1"/>
     
       </g>
     </svg>
     <!-- endzone 2 -->
-    <svg class="mx-0 " style="width:10%;height:100%;">
+    <svg class="mx-0 " style="width:8%;height:100%;">
         <rect width="100%" height="100%" fill="red" stroke="black" />
     </svg>
 </div>
 
 @code {
+    private int ballWidth { get; set; } = 1;
+    private int ballHeight { get; set; } = 2;
 
+    private int ballSpot()
+    {
+        return 50 - ballWidth;
+    }
 }
