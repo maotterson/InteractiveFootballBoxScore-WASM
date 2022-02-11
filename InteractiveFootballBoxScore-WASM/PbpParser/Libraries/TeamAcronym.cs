@@ -36,6 +36,7 @@
         LAC,
         WAS,
         BAL,
-        LVR
+        LVR,
+        NOT_FOUND
     }
 }

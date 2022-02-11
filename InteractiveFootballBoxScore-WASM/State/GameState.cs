@@ -1,4 +1,6 @@
-﻿using InteractiveFootballBoxScore_WASM.PbpParser.Models;
+﻿using InteractiveFootballBoxScore_WASM.PbpParser.Game;
+using InteractiveFootballBoxScore_WASM.PbpParser.Libraries;
+using InteractiveFootballBoxScore_WASM.PbpParser.Models;
 using PlayByPlayParser;
 using PlayByPlayParser.Models;
 
@@ -6,12 +8,15 @@ namespace InteractiveFootballBoxScore_WASM.State
 {
     public class GameState
     {
-        public Game CurrentGame { get; private set; }
+        public Game? CurrentGame { get; private set; }
 
         public event Action OnChange;
 
         public async Task ProcessGameDataFromHTTP(HttpResponseMessage response)
         {
+            // set to track extracted teams via acronym appearance
+            HashSet<TeamAcronym> discoveredTeams = new HashSet<TeamAcronym>();
+
             CurrentGame = new Game()
             {
                 PlayList = new List<Play>()
@@ -40,7 +45,25 @@ namespace InteractiveFootballBoxScore_WASM.State
                         PlayEvent = PlayEventFactory.ExtractPlayEvent(data[5])
                     };
                     CurrentGame.PlayList.Add(currentPlay);
+
+                    if(discoveredTeams.Count < 2)
+                    {
+                        extractTeamFromCurrentPlay(currentPlay, discoveredTeams);
+                    }
                 }
+                
+                // assign home/away teams based on found teams during the play-by-play extraction
+                CurrentGame.Home = TeamLibrary.teamDictionary[discoveredTeams.ElementAt(0)];
+                CurrentGame.Away = TeamLibrary.teamDictionary[discoveredTeams.ElementAt(1)];
+            }
+        }
+
+        private void extractTeamFromCurrentPlay(Play currentPlay, HashSet<TeamAcronym> discoveredTeams)
+        {
+            bool isValidTeamAcronym = GameExtractor.TryExtractTeamFromLocation(currentPlay.Location, out TeamAcronym foundAcronym);
+            if (isValidTeamAcronym)
+            {
+                discoveredTeams.Add(foundAcronym);
             }
         }
 
