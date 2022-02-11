@@ -4,15 +4,15 @@
 @using PlayByPlayParser.Models
 @inject HttpClient Http
 @inject State.PlayState PlayState
+@inject State.GameState GameState
 
 <PageTitle>Index</PageTitle>
 
 <h1>Play-by-Play</h1>
 <PlayView/>
-<PlayTable PlayList="playList"/>
+<PlayTable PlayList="GetPlayList()"/>
 
 @code {
-    private List<Play> playList = new List<Play>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -21,38 +21,14 @@
 
         if (response.IsSuccessStatusCode)
         {
-            await processData(response);
+            await GameState.ProcessGameDataFromHTTP(response);
         }
 
-        PlayState.SetCurrentPlay(playList[0]);
+        PlayState.SetCurrentPlay(GameState.CurrentGame.PlayList[0]);
     }
 
-    private async Task processData(HttpResponseMessage response)
+    private List<Play> GetPlayList()
     {
-        Stream responseStream = await response.Content.ReadAsStreamAsync();
-        using (var reader = new StreamReader(responseStream))
-        {
-            //skip header line
-            reader.ReadLine();
-
-            int index = 0;
-            while (reader.EndOfStream == false)
-            {
-                index++;
-                string[] data = reader.ReadLine().Split(",");
-                Play currentPlay = new Play
-                {
-                    PlayIndex = index,
-                    Quarter = data[0],
-                    Time = data[1],
-                    Down = data[2],
-                    ToGo = data[3],
-                    Location = data[4],
-                    Summary = data[5],
-                    PlayEvent = PlayEventFactory.ExtractPlayEvent(data[5])
-                };
-                playList.Add(currentPlay);
-            }
-        }
+        return GameState.CurrentGame.PlayList;
     }
 }
