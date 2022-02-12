@@ -1,18 +1,34 @@
 ﻿@using InteractiveFootballBoxScore_WASM.Components.Teams
 @using InteractiveFootballBoxScore_WASM.PbpParser.Models
 @inject State.GameState GameState
+@inject State.PlayState PlayState
 <table>
     <tr>
         <td class="" style="background-color:@Home.SecondaryColor"><TeamSpan team="@Home" /></td>
-        <td class="">x</td>
+        @if (IsHomePossession)
+        {
+            <td class="">x</td>
+        }
+        else
+        {
+            <td class=""></td>
+        }
     </tr>
     <tr>
         <td class="" style="background-color:@Away.SecondaryColor"><TeamSpan team="@Away" /></td>
-        <td class=""></td>
+        @if (IsHomePossession)
+        {
+            <td class=""></td>
+        }
+        else
+        {
+            <td class="">x</td>
+        }
     </tr>
 </table>
 
 @code {
     private Team Home => GameState.CurrentGame.Home;
     private Team Away => GameState.CurrentGame.Away;
+    private bool IsHomePossession => PlayState.CurrentPlay.IsHomePossession;
 }
