@@ -1,0 +1,7 @@
+﻿@using InteractiveFootballBoxScore_WASM.PbpParser.Models
+<span style="color:@team.PrimaryColor">@team.Name</span>
+
+@code {
+    [Parameter]
+    public Team team { get; set; }
+}

@@ -9,7 +9,7 @@
 <PageTitle>Index</PageTitle>
 
 <h1>Play-by-Play</h1>
-@Home() vs @Away()
+<MatchupBanner/>
 <PlayView/>
 <PlayTable PlayList="GetPlayList()"/>
 
@@ -33,13 +33,5 @@
         return GameState.CurrentGame.PlayList;
     }
 
-    private string Home()
-    {
-        return GameState.CurrentGame.Home.Name;
-    }
-
-    private string Away()
-    {
-        return GameState.CurrentGame.Away.Name;
-    }
+    
 }

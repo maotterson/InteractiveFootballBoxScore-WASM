@@ -1,0 +1,10 @@
+﻿@using InteractiveFootballBoxScore_WASM.Components.Teams
+@using InteractiveFootballBoxScore_WASM.PbpParser.Models
+@inject State.GameState GameState
+<h3>Matchup</h3>
+<TeamSpan team="@Home" /> vs <TeamSpan team="@Away"/>
+
+@code {
+    private Team Home => GameState.CurrentGame.Home;
+    private Team Away => GameState.CurrentGame.Away;
+}
