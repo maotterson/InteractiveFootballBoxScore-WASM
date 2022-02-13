@@ -1,7 +1,7 @@
-﻿using InteractiveFootballBoxScore_WASM.PbpParser.Game;
-using InteractiveFootballBoxScore_WASM.PbpParser.Libraries;
+﻿using InteractiveFootballBoxScore_WASM.PbpParser.Libraries;
 using InteractiveFootballBoxScore_WASM.PbpParser.Models;
 using PlayByPlayParser;
+using PlayByPlayParser.Game;
 using PlayByPlayParser.Models;
 
 namespace InteractiveFootballBoxScore_WASM.State
@@ -56,8 +56,15 @@ namespace InteractiveFootballBoxScore_WASM.State
                 CurrentGame.Home = TeamLibrary.teamDictionary[discoveredTeams.ElementAt(0)];
                 CurrentGame.Away = TeamLibrary.teamDictionary[discoveredTeams.ElementAt(1)];
             }
+            determinePossession();
         }
-
+        private void determinePossession()
+        {
+            CurrentGame.PlayList.ForEach(play =>
+            {
+                play.IsHomePossession = PlayDataExtractor.IsHomePossessionAtKickoff(play.Location, CurrentGame.Home.Acronym);
+            });
+        }
         private void extractTeamFromCurrentPlay(Play currentPlay, HashSet<TeamAcronym> discoveredTeams)
         {
             bool isValidTeamAcronym = GameExtractor.TryExtractTeamFromLocation(currentPlay.Location, out TeamAcronym foundAcronym);

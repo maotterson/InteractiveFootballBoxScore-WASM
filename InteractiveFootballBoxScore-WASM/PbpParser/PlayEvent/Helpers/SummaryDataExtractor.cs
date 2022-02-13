@@ -1,4 +1,5 @@
-﻿using PlayByPlayParser.PlayEvent.PlayTypes.Pass;
+﻿using InteractiveFootballBoxScore_WASM.PbpParser.Libraries;
+using PlayByPlayParser.PlayEvent.PlayTypes.Pass;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +54,5 @@ namespace PlayByPlayParser.PlayEvent.Helpers
         {
             return summary.Contains("Penalty");
         }
-
     }
 }

@@ -1,6 +1,6 @@
 ﻿using InteractiveFootballBoxScore_WASM.PbpParser.Libraries;
 
-namespace InteractiveFootballBoxScore_WASM.PbpParser.Game
+namespace PlayByPlayParser.Game
 {
     public static class GameExtractor
     {
@@ -25,5 +25,6 @@ namespace InteractiveFootballBoxScore_WASM.PbpParser.Game
                 return false;
             }
         }
+
     }
 }
