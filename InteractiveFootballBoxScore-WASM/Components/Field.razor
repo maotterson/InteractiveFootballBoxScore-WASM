@@ -1,4 +1,5 @@
 ﻿@inject State.GameState GameState
+@inject State.PlayState PlayState
 <div class="flex flex-row">
     <!-- endzone 1 -->
     <svg class="mx-0" style="width:8%;height:100%;">
@@ -37,9 +38,23 @@
     private int ballWidth { get; set; } = 1;
     private int ballHeight { get; set; } = 2;
 
+    protected override void OnInitialized()
+    {
+        PlayState.OnChange += StateHasChanged;
+    }
+    public void Dispose()
+    {
+        PlayState.OnChange -= StateHasChanged;
+    }
+
     private int ballSpot()
     {
-        return 50 - ballWidth;
+        // set position of ball based on possession
+        if (PlayState.CurrentPlay.IsHomePossession)
+        {
+            return 50 - ballWidth;
+        }
+        return 50 + ballWidth;
     }
     private string homeColor()
     {
