@@ -1,9 +1,10 @@
-﻿@inject State.GameState GameState
+﻿@using InteractiveFootballBoxScore_WASM.PbpParser.Models
+@inject State.GameState GameState
 @inject State.PlayState PlayState
 <div class="flex flex-row">
     <!-- endzone 1 -->
     <svg class="mx-0" style="width:8%;height:100%;">
-        <rect width="100%" height="100%" fill="@homeColor()" stroke="black" />
+        <rect width="100%" height="100%" fill="@Home.PrimaryColor" stroke="black" />
     </svg>
 
     <!-- play area -->
@@ -24,19 +25,34 @@
             }
         }
 
-        <ellipse cx="@ballSpot()%" cy="50%" rx="@ballWidth%" ry="@ballHeight%" stroke="brown" fill="brown" stroke-width="1"/>
+        <ellipse cx="@ballSpot%" cy="50%" rx="@ballWidth%" ry="@ballHeight%" stroke="brown" fill="brown" stroke-width="1"/>
     
       </g>
     </svg>
     <!-- endzone 2 -->
     <svg class="mx-0 " style="width:8%;height:100%;">
-        <rect width="100%" height="100%" fill="@awayColor()" stroke="black" />
+        <rect width="100%" height="100%" fill="@Away.PrimaryColor" stroke="black" />
     </svg>
 </div>
 
 @code {
+    // relative ball size on field
     private int ballWidth { get; set; } = 1;
     private int ballHeight { get; set; } = 2;
+    private Team Home => GameState.CurrentGame.Home;
+    private Team Away => GameState.CurrentGame.Away;
+    private int ballSpot
+    {
+        get
+        {
+            // set position of ball based on possession
+            if (PlayState.CurrentPlay.IsHomePossession)
+            {
+                return 50 - ballWidth;
+            }
+            return 50 + ballWidth;
+        }
+    }
 
     protected override void OnInitialized()
     {
@@ -45,23 +61,5 @@
     public void Dispose()
     {
         PlayState.OnChange -= StateHasChanged;
-    }
-
-    private int ballSpot()
-    {
-        // set position of ball based on possession
-        if (PlayState.CurrentPlay.IsHomePossession)
-        {
-            return 50 - ballWidth;
-        }
-        return 50 + ballWidth;
-    }
-    private string homeColor()
-    {
-        return GameState.CurrentGame.Home.PrimaryColor;
-    }
-    private string awayColor()
-    {
-        return GameState.CurrentGame.Away.PrimaryColor;
     }
 }
