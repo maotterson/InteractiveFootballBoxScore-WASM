@@ -15,13 +15,19 @@
         <!-- paint major yardlines -->
         @for(int i=5; i<=95; i+=5)
         {
+            <text>
+                <text x="@(i-1)%" y="75%" stroke="white">@i</text>
+                <text x="@(i-1)%" y="25%" stroke="white">@i</text>
+            </text>
             if(i==50)
             {
                 <line x1="@i%" y1="0%" x2="@i%" y2="100%" stroke="white" stroke-width="2"/>
+                
             }
             else
             {
-                <line x1="@i%" y1="0%" x2="@i%" y2="100%" stroke="white"/>    
+                <line x1="@i%" y1="0%" x2="@i%" y2="100%" stroke="white"/>  
+                <text>@i</text>  
             }
         }
 
