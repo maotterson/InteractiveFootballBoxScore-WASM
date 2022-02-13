@@ -1,0 +1,19 @@
+﻿ <text>
+    <text x="@(yardLine-1)%" y="75%" stroke="white">@yardLabel</text>
+    <text x="@(yardLine-1)%" y="25%" stroke="white">@yardLabel</text>
+</text>
+
+@code {
+    [Parameter]
+    public int yardLine { get; set; }
+    public int yardLabel {
+        get {
+            if(yardLine > 50)
+            {
+                return yardLine - (yardLine - 50);
+            }
+            return yardLine;
+        }
+    }
+}
+            

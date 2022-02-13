@@ -1,0 +1,20 @@
+﻿@if(yardLine==50)
+{
+    <line x1="@yardLine%" y1="0%" x2="@yardLine%" y2="100%" stroke="white" stroke-width="2"/>
+                
+}
+else if(yardLine%5==0)
+{
+    <line x1="@yardLine%" y1="0%" x2="@yardLine%" y2="100%" stroke="white" stroke-width="1"/>
+}
+else
+{
+    <line x1="@yardLine%" y1="0%" x2="@yardLine%" y2="5%" stroke="white" stroke-width="1"/>
+    <line x1="@yardLine%" y1="95%" x2="@yardLine%" y2="100%" stroke="white" stroke-width="1"/>
+}
+
+@code {
+    [Parameter]
+    public int yardLine { get; set; }
+}
+            
