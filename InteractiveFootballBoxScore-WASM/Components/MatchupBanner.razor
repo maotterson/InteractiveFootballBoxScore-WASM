@@ -28,6 +28,14 @@
 </table>
 
 @code {
+    protected override void OnInitialized()
+    {
+        PlayState.OnChange += StateHasChanged;
+    }
+    public void Dispose()
+    {
+        PlayState.OnChange -= StateHasChanged;
+    }
     private Team Home => GameState.CurrentGame.Home;
     private Team Away => GameState.CurrentGame.Away;
     private bool IsHomePossession => PlayState.CurrentPlay.IsHomePossession;
