@@ -11,7 +11,7 @@
 <h1>Play-by-Play</h1>
 <MatchupBanner/>
 <PlayView/>
-<PlayTable PlayList="GetPlayList()"/>
+<PlayTable/>
 
 @code {
 
@@ -28,10 +28,4 @@
         PlayState.SetCurrentPlay(GameState.CurrentGame.PlayList[0]);
     }
 
-    private List<Play> GetPlayList()
-    {
-        return GameState.CurrentGame.PlayList;
-    }
-
-    
 }

@@ -1,0 +1,10 @@
+﻿<ellipse cx="@ballSpot%" cy="50%" rx="@ballWidth%" ry="@ballHeight%" stroke="brown" fill="brown" stroke-width="1"/>
+
+@code {
+    // relative ball size on field
+    private int ballHeight { get; set; } = 2;
+    [Parameter]
+    public int ballWidth { get; set; }
+    [Parameter]
+    public int ballSpot { get; set; }
+}

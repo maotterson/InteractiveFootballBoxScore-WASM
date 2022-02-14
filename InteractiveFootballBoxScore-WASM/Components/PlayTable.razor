@@ -1,5 +1,7 @@
-﻿@using PlayByPlayParser.Models
+﻿@using InteractiveFootballBoxScore_WASM.State
+@using PlayByPlayParser.Models
 @inject InteractiveFootballBoxScore_WASM.State.PlayState PlayState
+@inject GameState GameState
 
 <table class="table">
     <thead>
@@ -11,28 +13,39 @@
         </tr>
     </thead>
     
-    <tbody>
-    @foreach(Play play in PlayList)
+    @if(PlayList != null)
     {
-        <tr
-            @onmouseover="() => OnPlaySelected(play)">
-            <td>@play.PlayIndex</td>
-            <td>@play.Quarter</td>
-            <td>@play.Time</td>
-            <td>@play.Down</td>
-            <td>@play.ToGo</td>
-            <td>@play.Location</td>
-            <td>@play.Summary</td>
-        </tr>
+        <tbody>
+        @foreach(Play play in PlayList)
+        {
+            <tr
+                @onmouseover="() => OnPlaySelected(play)">
+                <td>@play.PlayIndex</td>
+                <td>@play.Quarter</td>
+                <td>@play.Time</td>
+                <td>@play.Down</td>
+                <td>@play.ToGo</td>
+                <td>@play.Location</td>
+                <td>@play.Summary</td>
+            </tr>
+        }
+        </tbody>
     }
-    </tbody>
 </table>
 
 @code {
     private string[] headers = { "Play", "Quarter", "Time", "Down", "To Go", "Location", "Summary" };
 
-    [Parameter]
-    public List<Play>? PlayList { get; set; }
+    public List<Play>? PlayList => GameState.CurrentGame.PlayList;
+
+    protected override void OnInitialized()
+    {
+        PlayState.OnChange += StateHasChanged;
+    }
+    public void Dispose()
+    {
+        PlayState.OnChange -= StateHasChanged;
+    }
 
     private void OnPlaySelected(Play play)
     {
