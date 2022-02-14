@@ -31,9 +31,9 @@
             // set position of ball based on possession
             if (PlayState.CurrentPlay.IsHomePossession)
             {
-                return 50 - ballWidth;
+                return PlayState.CurrentPlay.LocationInt - ballWidth;
             }
-            return 50 + ballWidth;
+            return PlayState.CurrentPlay.LocationInt + ballWidth;
         }
     }
 

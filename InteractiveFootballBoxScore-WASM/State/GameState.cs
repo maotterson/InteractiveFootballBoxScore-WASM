@@ -56,7 +56,15 @@ namespace InteractiveFootballBoxScore_WASM.State
                 CurrentGame.Home = TeamLibrary.teamDictionary[discoveredTeams.ElementAt(0)];
                 CurrentGame.Away = TeamLibrary.teamDictionary[discoveredTeams.ElementAt(1)];
             }
+            determineLocationInt();
             determinePossession();
+        }
+        private void determineLocationInt()
+        {
+            CurrentGame.PlayList.ForEach(play =>
+            {
+                play.LocationInt = PlayDataExtractor.extractLocationInt(play.Location, CurrentGame.Home.Acronym);
+            });
         }
         private void determinePossession()
         {

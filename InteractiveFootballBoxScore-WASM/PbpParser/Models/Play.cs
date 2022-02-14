@@ -14,8 +14,10 @@ namespace PlayByPlayParser.Models
         public string? Down { get; set; }
         public string? ToGo { get; set; }
         public string? Location { get; set; }
+        public int LocationInt { get; set; }
         public string? Summary { get; set; }
         public bool IsHomePossession { get; set; }
+        public bool IsResultChangeOfPossession { get; set; }
         public IPlayEvent? PlayEvent { get; set; }
     }
 }
