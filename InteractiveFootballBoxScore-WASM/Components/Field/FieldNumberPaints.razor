@@ -1,20 +1,17 @@
-﻿@if(yardLine==50)
-{
-    <line x1="@yardLine%" y1="0%" x2="@yardLine%" y2="100%" stroke="white" stroke-width="2"/>
-                
-}
-else if(yardLine%5==0)
-{
-    <line x1="@yardLine%" y1="0%" x2="@yardLine%" y2="100%" stroke="white" stroke-width="1"/>
-}
-else
-{
-    <line x1="@yardLine%" y1="0%" x2="@yardLine%" y2="5%" stroke="white" stroke-width="1"/>
-    <line x1="@yardLine%" y1="95%" x2="@yardLine%" y2="100%" stroke="white" stroke-width="1"/>
-}
+﻿<text x="@yardLine%" y="75%" stroke="white" dominant-baseline="middle" text-anchor="middle">@yardLabel</text>
+<text x="@yardLine%" y="25%" stroke="white" dominant-baseline="middle" text-anchor="middle">@yardLabel</text>
 
 @code {
     [Parameter]
     public int yardLine { get; set; }
+    public int yardLabel {
+        get {
+            if(yardLine > 50)
+            {
+                return 100-yardLine;
+            }
+            return yardLine;
+        }
+    }
 }
             
