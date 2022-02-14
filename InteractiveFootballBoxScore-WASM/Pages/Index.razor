@@ -9,6 +9,8 @@
 <PageTitle>Index</PageTitle>
 
 <h1>Play-by-Play</h1>
+<button @onclick="loadGame1">Sample Game 1</button>
+<button @onclick="loadGame2">Sample Game 2</button>
 @if(GameState.CurrentGame != null)
 {
     <MatchupBanner/>
@@ -17,11 +19,26 @@
 }
 
 @code {
+    private async Task loadGame1()
+    {
+        string sampleDataURI = "sample-data/GameDataFBRef.csv";
+        await processData(sampleDataURI);
+    }
+    private async Task loadGame2()
+    {
+        string sampleDataURI = "sample-data/GameDataFBRef2.csv";
+        await processData(sampleDataURI);
+    }
 
     protected override async Task OnInitializedAsync()
     {
         string sampleDataURI = "sample-data/GameDataFBRef.csv";
-        var response = await Http.GetAsync(sampleDataURI);
+        await processData(sampleDataURI);
+    }
+
+    private async Task processData(string dataURI)
+    {
+        var response = await Http.GetAsync(dataURI);
 
         if (response.IsSuccessStatusCode)
         {
