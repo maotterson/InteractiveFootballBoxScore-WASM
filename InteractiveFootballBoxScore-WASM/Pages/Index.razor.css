@@ -1,8 +1,8 @@
-﻿.endzone-text-away {
+﻿::deep .endzone-text-away {
     transform: rotate(90deg);
     transform-origin: 50% 50%;
 }
-.endzone-text-home {
+::deep .endzone-text-home {
     transform: rotate(270deg);
     transform-origin: 50% 50%;
 }
