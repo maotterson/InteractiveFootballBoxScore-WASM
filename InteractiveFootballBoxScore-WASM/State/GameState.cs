@@ -68,9 +68,25 @@ namespace InteractiveFootballBoxScore_WASM.State
         }
         private void determinePossession()
         {
+            Play previousPlay = null;
             CurrentGame.PlayList.ForEach(play =>
             {
-                play.IsHomePossession = PlayDataExtractor.IsHomePossessionAtKickoff(play.Location, CurrentGame.Home.Acronym);
+                if (previousPlay!=null && !previousPlay.IsResultChangeOfPossession)
+                {
+                    play.IsHomePossession = previousPlay.IsHomePossession;
+                }
+                else
+                {
+                    switch (play.PlayEvent.PlayType)
+                    {
+                        case "Kickoff":
+                            play.IsHomePossession = PlayDataExtractor.IsHomePossessionAtKickoff(play.Location, CurrentGame.Home.Acronym);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                previousPlay = play;
             });
         }
         private void extractTeamFromCurrentPlay(Play currentPlay, HashSet<TeamAcronym> discoveredTeams)
